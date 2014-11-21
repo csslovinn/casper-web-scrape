@@ -20,7 +20,8 @@ function Item (name, zones, sun_type, soil_type, ph, instructions) {
 
  var links = [
  'http://www.almanac.com/plants/type/vegetable',
- 'http://www.almanac.com/plants/type/plant'
+ 'http://www.almanac.com/plants/type/plant',
+ 'http://www.almanac.com/plants/type/herb'
  ];
 
  casper.start().each(links, function(self, link) {
@@ -45,8 +46,9 @@ function Item (name, zones, sun_type, soil_type, ph, instructions) {
                     var zone_info = this.getElementsInfo(zone_selector);
                     var zones = [];
                     for (var i = 0; i < zone_info.length; i++) {
+                        //change zones text to integers in the array
                         var zone = parseInt(zone_info[i].text);
-                        zones.push(zone);//use this for numeric values in array
+                        zones.push(zone);
                     }
                     //sun and soil info
                     var sun_type = this.fetchText('a[href*="sun"]');
