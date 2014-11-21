@@ -70,10 +70,6 @@ casper.then(function() {
 });
 
 casper.then(function () {
-	this.back();
-});
-
-casper.then(function () {
 	casper.exit();
 });
 
