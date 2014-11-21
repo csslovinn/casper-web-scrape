@@ -64,11 +64,11 @@ function Item (name, zones, sun_type, soil_type, ph, instructions) {
                     var plant = new Item (name, zones, sun_type, soil_type, ph, instructions);
                     utils.dump(plant);
                     return (plant);
-                });
-            });
-        });
-    });
-});
+                }); //end main script body
+            });//end types iterations
+        });//end profile URL loop
+    });//end links iterations
+});//end page URL loop
 
 casper.then(function () {
 	casper.exit();
