@@ -8,11 +8,29 @@ var casper = require('casper').create({
   }
 });
 
+//Object
+function Item (name, zones, sun_type, soil_type, ph, instructions) {
+    	this.name = name;
+    	this.zones = zones;
+    	this.sun_type = sun_type;
+    	this.soil_type = soil_type;
+    	this.ph = ph;
+    	this.instructions = instructions;
+}
+
 casper.start('http://www.almanac.com/plants/type/vegetable'); 
 
 //give page time to load, then click object link
 casper.wait(3000, function () {
-	this.click('.field-content a');
+	//this.click('.field-content a');
+	var type_selector = '.views-field-title a[href*="plant"]';
+	var type_info = this.getElementsInfo(type_selector);
+	var types = [];
+	for (var i = 0; i < type_info.length; i++) {
+    	types.push('http://www.almanac.com' + type_info[i].attributes.href);
+    }
+    utils.dump(types);
+
 });
 
 //test url opened by object link
@@ -22,15 +40,6 @@ casper.then(function() {
 
 //grab data from object profile page
 casper.then(function() {
-    //Object
-    function Item (name, zones, sun_type, soil_type, ph, instructions) {
-    	this.name = name;
-    	this.zones = zones;
-    	this.sun_type = sun_type;
-    	this.soil_type = soil_type;
-    	this.ph = ph;
-    	this.instructions = instructions;
-    }
 
     //name
     var name = this.fetchText('h1');
@@ -61,7 +70,12 @@ casper.then(function() {
 });
 
 casper.then(function () {
+	this.back();
+});
+
+casper.then(function () {
 	casper.exit();
 });
 
 casper.run();
+
