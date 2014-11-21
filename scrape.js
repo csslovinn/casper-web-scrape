@@ -20,7 +20,7 @@ function Item (name, zones, sun_type, soil_type, ph, instructions) {
 
  var links = [
  'http://www.almanac.com/plants/type/vegetable',
- 'http://www.almanac.com/plants/type/plant',
+ 'http://www.almanac.com/plants/type/fruit',
  'http://www.almanac.com/plants/type/herb'
  ];
 
@@ -42,19 +42,23 @@ function Item (name, zones, sun_type, soil_type, ph, instructions) {
                      //name
                     var name = this.fetchText('h1');
                     //create an array of the zones
-                    var zone_selector = 'a[href*="hardiness-zone"]';  
-                    var zone_info = this.getElementsInfo(zone_selector);
-                    var zones = [];
-                    for (var i = 0; i < zone_info.length; i++) {
-                        //change zones text to integers in the array
-                        var zone = parseInt(zone_info[i].text);
-                        zones.push(zone);
+                    if (this.exists('a[href*="hardiness-zone"]')) {
+                        var zone_selector = 'a[href*="hardiness-zone"]';  
+                        var zone_info = this.getElementsInfo(zone_selector);
+                        var zones = [];
+                        for (var i = 0; i < zone_info.length; i++) {
+                            //change zones text to integers in the array
+                            var zone = parseInt(zone_info[i].text);
+                            zones.push(zone);
+                        }
+                    } else {
+                        var zones = "All";
                     }
                     //sun and soil info
                     var sun_type = this.fetchText('a[href*="sun"]');
                     var soil_type = this.fetchText('a[href^="/plants/soil/"]');
                     var ph = this.fetchText('a[href*="soilph"]');
-                    //select planting info
+                    //create an array of the planting info
                     var instr_selector = '#article-body > h2:first-of-type + p + ul > li';
                     var instr_info = this.getElementsInfo(instr_selector);
                     var instructions = [];
@@ -65,7 +69,6 @@ function Item (name, zones, sun_type, soil_type, ph, instructions) {
                     //create new vegetable
                     var plant = new Item (name, zones, sun_type, soil_type, ph, instructions);
                     utils.dump(plant);
-                    return (plant);
                 }); //end main script body
             });//end types iterations
         });//end profile URL loop
